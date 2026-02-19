@@ -18,7 +18,7 @@ export default function Home() {
 
   // Substitua estas URLs pelos seus placeholders de imagem
   const mobileImageUrl = '/placeholder-mobile.webp' // Imagem vertical focada na parte inferior
-  const desktopImageUrl = '/placeholder-mobile.webp' // Temporariamente usando a mesma imagem (adicione placeholder-desktop.webp quando tiver)
+  const desktopImageUrl = '/placeholder-desktop.webp' // Imagem horizontal para desktop
 
   const whatsappNumber = '5511999999999' // Substitua pelo número real do WhatsApp
   const whatsappMessage = encodeURIComponent('Olá! Gostaria de verificar a disponibilidade do espaço para a minha data.')
