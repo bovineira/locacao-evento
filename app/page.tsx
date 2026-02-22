@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 
-// Componente do Ícone WhatsApp
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
     className={className}
@@ -14,129 +13,420 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+  }),
+}
+
+const containerStagger = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+}
+
+const CTA_SECTION_ID = 'cta-final'
+
+function ScrollDownArrow() {
+  return (
+    <motion.div
+      className="flex justify-center pb-6 pt-4 md:pb-8 md:pt-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.8 }}
+    >
+      <motion.a
+        href={`#${CTA_SECTION_ID}`}
+        onClick={(e) => {
+          e.preventDefault()
+          document.getElementById(CTA_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
+        }}
+        className="flex flex-col items-center gap-1 text-amber-200/80 transition-colors hover:text-amber-200"
+        aria-label="Rolar para baixo"
+      >
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="block"
+        >
+          <svg
+            className="h-8 w-8 md:h-10 md:w-10"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
+        </motion.span>
+      </motion.a>
+    </motion.div>
+  )
+}
+
+function GoldCtaButton({ className }: { className?: string }) {
+  const scrollToCta = () => {
+    document.getElementById(CTA_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
+  }
+  return (
+    <motion.button
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={scrollToCta}
+      className={`rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-400 px-8 py-4 font-poppins font-semibold text-zinc-900 shadow-[0_4px_24px_rgba(251,191,36,0.35)] transition-shadow hover:shadow-[0_6px_32px_rgba(251,191,36,0.45)] md:px-10 md:py-5 md:text-lg ${className ?? ''}`}
+    >
+      VERIFICAR DISPONIBILIDADE
+    </motion.button>
+  )
+}
+
+function WhatsAppButton({
+  onClick,
+  large = false,
+}: {
+  onClick: () => void
+  large?: boolean
+}) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{
+        opacity: 1,
+        scale: large ? [1, 1.045, 1] : [1, 1.02, 1],
+      }}
+      transition={{
+        opacity: { duration: 0.6 },
+        scale: {
+          duration: large ? 2.2 : 2.5,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: large ? 0.3 : 0.5,
+        },
+      }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`relative overflow-hidden rounded-full bg-[#25D366] text-white font-montserrat font-semibold flex items-center gap-3 shadow-2xl transition-all duration-300 hover:shadow-[#25D366]/50 ${
+        large
+          ? 'px-10 py-5 md:px-12 md:py-6 text-xl md:text-2xl'
+          : 'px-8 py-4 md:px-10 md:py-5 text-lg md:text-xl'
+      }`}
+    >
+      <motion.div
+        className="absolute bg-gradient-to-r from-transparent via-white/50 to-transparent"
+        style={{ width: '200%', height: '200%', top: '-50%', left: '-50%' }}
+        animate={{
+          x: ['-200%', '200%'],
+          y: ['-200%', '200%'],
+          rotate: [45, 45],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+      />
+      <span className="relative z-10 flex items-center gap-3">
+        <WhatsAppIcon
+          className={large ? 'w-7 h-7 md:w-8 md:h-8' : 'w-6 h-6 md:w-7 md:h-7'}
+        />
+        VERIFICAR DISPONIBILIDADE
+      </span>
+    </motion.button>
+  )
+}
+
 export default function Home() {
-
-  // Substitua estas URLs pelos seus placeholders de imagem
-  const mobileImageUrl = '/placeholder-mobile.webp' // Imagem vertical focada na parte inferior
-  const desktopImageUrl = '/placeholder-desktop.webp' // Imagem horizontal para desktop
-
-  const whatsappNumber = '5511999999999' // Substitua pelo número real do WhatsApp
-  const whatsappMessage = encodeURIComponent('Olá! Gostaria de verificar a disponibilidade do espaço para a minha data.')
-
+  const mobileImageUrl = '/placeholder-mobile.webp'
+  const desktopImageUrl = '/placeholder-desktop.webp'
+  const whatsappNumber = '5511994283658'
+  const whatsappMessage = encodeURIComponent(
+    'Olá! Gostaria de verificar a disponibilidade do espaço para a minha data.'
+  )
   const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank')
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
+      '_blank'
+    )
   }
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Background com Picture Tag para Responsividade */}
-      <picture className="absolute inset-0 z-0">
-        {/* Desktop - Imagem Horizontal */}
-        <source
-          media="(min-width: 768px)"
-          srcSet={desktopImageUrl}
-        />
-        {/* Mobile - Imagem Vertical */}
-        <img
-          key={mobileImageUrl}
-          src={mobileImageUrl}
-          alt="Espaço Premium para Eventos"
-          className="w-full h-full object-cover object-bottom md:object-center"
-          loading="eager"
-          fetchPriority="high"
-        />
-      </picture>
-
-      {/* Overlay Escuro para Legibilidade */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/40 to-black/50 md:from-black/50 md:via-black/40 md:to-black/50" />
-
-      {/* Conteúdo Principal */}
-      <main className="relative z-20 min-h-screen flex flex-col justify-start md:justify-center md:items-start px-6 md:px-12 lg:px-16 pt-20 md:pt-0">
-        <div className="w-full md:w-1/2 md:max-w-2xl">
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="font-poppins text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6"
-          >
-            <span className="text-gradient-animated inline-block">Agenda Aberta</span>: Garanta o Cenário Exclusivo para o seu{' '}
-            <span className="text-gradient-animated inline-block">
-              Grande Dia.
-            </span>
-          </motion.h1>
-
-          {/* Subheadline */}
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="font-montserrat text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed mb-10 md:mb-12 font-light"
-          >
-            Infraestrutura completa para{' '}
-            <span className="font-semibold text-[#d4af37]">Casamentos</span>,{' '}
-            <span className="font-semibold text-[#d4af37]">15 Anos</span> e{' '}
-            <span className="font-semibold text-[#d4af37]">Corporativos</span>. Agende antes que se esgote.
-          </motion.h2>
-
-          {/* Botão CTA WhatsApp */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ 
-              opacity: 1, 
-              scale: [1, 1.02, 1],
-            }}
-            transition={{ 
-              opacity: { duration: 0.6, delay: 0.4 },
-              scale: {
-                duration: 2.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 0.8,
-              }
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleWhatsAppClick}
-            className="relative overflow-hidden rounded-full bg-[#25D366] px-8 py-4 md:px-10 md:py-5 text-white font-montserrat font-semibold text-lg md:text-xl flex items-center gap-3 shadow-2xl transition-all duration-300 hover:shadow-[#25D366]/50 group"
-          >
-            {/* Shimmer Effect - Contínuo e Diagonal */}
+    <div className="relative w-full overflow-x-hidden bg-zinc-950">
+      {/* ========== SESSÃO 01 - HERO ========== */}
+      <section className="relative flex min-h-screen w-full flex-col">
+        <picture className="absolute inset-0 z-0">
+          <source media="(min-width: 768px)" srcSet={desktopImageUrl} />
+          <img
+            src={mobileImageUrl}
+            alt="Espaço de Eventos Zona Norte São Paulo"
+            className="h-full w-full object-cover object-bottom md:object-center"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </picture>
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-zinc-950/90 md:from-black/60 md:via-black/40 md:to-zinc-950" />
+        <main className="relative z-20 flex flex-1 flex-col justify-start px-6 pt-20 md:justify-center md:items-start md:px-12 md:pt-0 lg:px-16">
+          <div className="w-full md:w-1/2 md:max-w-2xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="font-poppins text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl"
+            >
+              O Espaço de Eventos{' '}
+              <span className="text-gradient-animated">Exclusivo</span> na{' '}
+              <span className="text-gradient-animated">Zona Norte</span> de São Paulo
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+              className="mb-10 mt-6 font-poppins text-lg font-medium leading-relaxed text-zinc-300 md:mb-12 md:text-xl lg:text-2xl"
+            >
+              Celebre seus melhores momentos em um ambiente{' '}
+              <span className="font-semibold text-gradient-animated">acolhedor, versátil</span>
+              {' '}e preparado para transformar cada detalhe em uma{' '}
+              <span className="font-semibold text-gradient-animated">experiência inesquecível</span>.
+            </motion.p>
             <motion.div
-              className="absolute bg-gradient-to-r from-transparent via-white/50 to-transparent"
-              style={{
-                width: '200%',
-                height: '200%',
-                top: '-50%',
-                left: '-50%',
-              }}
-              animate={{
-                x: ['-200%', '200%'],
-                y: ['-200%', '200%'],
-                rotate: [45, 45],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatDelay: 0,
-                ease: 'linear',
-              }}
-            />
-
-            {/* Conteúdo do Botão */}
-            <span className="relative z-10 flex items-center gap-3">
-              <WhatsAppIcon className="w-6 h-6 md:w-7 md:h-7" />
-              VERIFICAR DISPONIBILIDADE
-            </span>
-          </motion.button>
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <GoldCtaButton />
+            </motion.div>
+          </div>
+        </main>
+        <div className="relative z-20 shrink-0">
+          <ScrollDownArrow />
         </div>
-      </main>
+      </section>
 
-      {/* Footer */}
-      <footer className="relative z-20 bg-black py-6 px-6 md:px-12 lg:px-16">
-        <p className="text-center text-xs md:text-sm text-gray-600 font-montserrat">
-          Ao clicar, você será direcionado para o atendimento exclusivo via WhatsApp.{' '}
-          <br className="hidden md:inline" />
-          © 2026 Espaço Premium. Todos os direitos reservados.
+      {/* ========== SESSÃO 02 - SOBRE / EVENTOS ========== */}
+      <section className="relative py-20 md:py-28">
+        <div className="absolute inset-0 bg-zinc-950" />
+        <motion.div
+          className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 md:grid-cols-2 md:gap-16 md:px-12 lg:px-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={containerStagger}
+        >
+          <div className="flex flex-col justify-center">
+            <motion.p
+              variants={fadeUp}
+              custom={0}
+              className="font-poppins text-lg leading-relaxed text-zinc-300 md:text-xl"
+            >
+              <span className="text-gradient-animated">Confraternizações</span>, festas e{' '}
+              <span className="text-gradient-animated">eventos corporativos</span> com infraestrutura
+              completa, localização estratégica e atendimento personalizado.
+            </motion.p>
+            <motion.div variants={fadeUp} custom={1} className="mt-8">
+              <GoldCtaButton />
+            </motion.div>
+          </div>
+          <motion.div
+            variants={fadeUp}
+            custom={1}
+            className="relative aspect-[4/3] overflow-hidden rounded-lg border-2 border-amber-200/40 shadow-[0_0_30px_rgba(251,191,36,0.15)] md:aspect-[3/2]"
+          >
+            <img
+              src="/dobra-2.webp"
+              alt="Espaço para eventos - infraestrutura e ambiente"
+              className="h-full w-full object-cover"
+            />
+          </motion.div>
+        </motion.div>
+        <ScrollDownArrow />
+      </section>
+
+      {/* ========== SESSÃO 03 - LOCALIZAÇÃO ========== */}
+      <section className="relative py-20 md:py-28">
+        <div className="absolute inset-0 bg-zinc-900/50" />
+        <motion.div
+          className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 md:grid-cols-2 md:gap-16 md:px-12 lg:px-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={containerStagger}
+        >
+          <div className="flex flex-col justify-center">
+            <motion.h2
+              variants={fadeUp}
+              custom={0}
+              className="font-poppins text-3xl font-bold text-white md:text-4xl lg:text-5xl"
+            >
+              Nossa Localização
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={1}
+              className="mt-4 font-montserrat text-base leading-relaxed text-zinc-400 md:text-lg"
+            >
+              Localizado na Zona Norte de São Paulo, nosso espaço oferece fácil
+              acesso, estacionamento amplo e proximidade das principais vias da
+              região.
+            </motion.p>
+            <motion.p
+              variants={fadeUp}
+              custom={2}
+              className="mt-6 font-montserrat text-lg font-semibold text-amber-200 md:text-xl"
+            >
+              Rua Victorio Primon 360 — Casa Verde — 02550-050
+            </motion.p>
+          </div>
+          <motion.div
+            variants={fadeUp}
+            custom={2}
+            className="overflow-hidden rounded-xl border border-amber-200/30 shadow-[0_0_40px_rgba(251,191,36,0.12)]"
+          >
+            <iframe
+              src="https://www.google.com/maps?q=Rua+Victorio+Primon+360,+Casa+Verde,+Sao+Paulo+02550-050&output=embed"
+              width="100%"
+              height="320"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localização Espaço Casa Verde"
+              className="block min-h-[280px] w-full md:min-h-[320px]"
+            />
+          </motion.div>
+        </motion.div>
+        <ScrollDownArrow />
+      </section>
+
+      {/* ========== SESSÃO 04 - DIFERENCIAIS ========== */}
+      <section className="relative py-20 md:py-28">
+        <div className="absolute inset-0 bg-zinc-950" />
+        <div className="relative mx-auto max-w-6xl px-6 md:px-12 lg:px-16">
+          <motion.div
+            className="text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={containerStagger}
+          >
+            <motion.h2
+              variants={fadeUp}
+              custom={0}
+              className="font-poppins text-3xl font-bold text-white md:text-4xl lg:text-5xl"
+            >
+              Nossos Diferenciais
+            </motion.h2>
+            <motion.div
+              className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+              variants={containerStagger}
+            >
+              {[
+                'Ambiente versátil para diferentes tipos de celebrações.',
+                'Equipe especializada para garantir que cada detalhe seja perfeito.',
+                'Espaço amplo e funcional, adaptável ao estilo do seu evento.',
+                'Melhor Custo Benefício da região.',
+              ].map((text, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  custom={i}
+                  className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl"
+                >
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center text-amber-400">
+                    <svg
+                      className="h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                  <p className="min-w-0 flex-1 font-montserrat text-sm leading-relaxed text-zinc-300 md:text-base">
+                    {text}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              custom={4}
+              className="mt-12 flex justify-center"
+            >
+              <GoldCtaButton />
+            </motion.div>
+          </motion.div>
+        </div>
+        <ScrollDownArrow />
+      </section>
+
+      {/* ========== SESSÃO 05 - CTA FINAL ========== */}
+      <section id={CTA_SECTION_ID} className="relative flex min-h-screen min-w-full flex-col overflow-hidden pt-20 pb-48 md:min-h-[85vh] md:pb-40">
+        {/* Background mobile: imagem (100% visível, sem overlay) */}
+        <img
+          src="/dobra-5-bgmobile.webp"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
+        />
+        {/* Background desktop: gradiente */}
+        <div className="absolute inset-0 hidden bg-gradient-to-b from-zinc-950 via-amber-950/20 to-zinc-950 md:block" />
+        {/* Overlay escuro no mobile para legibilidade */}
+        <div className="absolute inset-0 bg-black/60 md:bg-transparent" />
+        <motion.div
+          className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-12 lg:px-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={containerStagger}
+        >
+          <motion.h2
+            variants={fadeUp}
+            custom={0}
+            className="font-poppins text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl"
+          >
+            <span className="text-gradient-animated">Garanta já</span> a data do seu{' '}
+            <span className="text-gradient-animated">evento!</span>
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            custom={1}
+            className="mt-4 font-poppins text-lg font-medium leading-relaxed text-zinc-300 md:text-xl"
+          >
+            <span className="font-semibold text-gradient-animated">WhatsApp</span> para consultar disponibilidade e solicitar seu{' '}
+            <span className="font-semibold text-gradient-animated">orçamento</span>.
+          </motion.p>
+          <motion.div
+            variants={fadeUp}
+            custom={2}
+            className="mt-10 flex justify-center"
+          >
+            <WhatsAppButton onClick={handleWhatsAppClick} large />
+          </motion.div>
+        </motion.div>
+        <ScrollDownArrow />
+      </section>
+
+      {/* ========== FOOTER ========== */}
+      <footer className="border-t border-zinc-800 bg-black py-8 px-6 md:px-12 lg:px-16">
+        <p className="text-center font-montserrat text-sm text-zinc-500">
+          © 2024 Espaço Casa Verde. Todos os direitos reservados. Agendamentos
+          via WhatsApp.
         </p>
       </footer>
     </div>

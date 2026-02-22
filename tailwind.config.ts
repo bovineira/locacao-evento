@@ -9,11 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
+        'poppins': ['var(--font-poppins)', 'Poppins', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
       },
       colors: {
         'whatsapp': '#25D366',
+        'gold': {
+          light: '#fde68a',
+          DEFAULT: '#f59e0b',
+          dark: '#d97706',
+        },
       },
       backgroundImage: {
         'gradient-text': 'linear-gradient(135deg, #10b981 0%, #d4af37 50%, #10b981 100%)',
