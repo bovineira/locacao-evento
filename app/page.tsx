@@ -3,6 +3,48 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
 
+const COOKIE_CONSENT_KEY = 'personal-office-cookie-consent'
+
+function CookieBanner() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const accepted = localStorage.getItem(COOKIE_CONSENT_KEY)
+    if (accepted !== 'true') setVisible(true)
+  }, [])
+
+  const accept = () => {
+    localStorage.setItem(COOKIE_CONSENT_KEY, 'true')
+    setVisible(false)
+  }
+
+  if (!visible) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed bottom-0 left-0 right-0 z-[100] border-t border-amber-200/20 bg-zinc-950/95 px-4 py-4 backdrop-blur-md md:px-6 md:py-5"
+    >
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
+        <p className="text-center font-montserrat text-sm leading-relaxed text-zinc-300 md:text-left">
+          Utilizamos cookies e tecnologias semelhantes para melhorar sua experiência, analisar o uso do site (incluindo pixel e ferramentas de anúncio) e personalizar conteúdo, em conformidade com a{' '}
+          <span className="font-medium text-amber-200/90">LGPD</span>. Ao continuar, você concorda com nossa política de cookies.
+        </p>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={accept}
+          className="shrink-0 rounded-full border border-amber-200/40 bg-gradient-to-r from-amber-500/90 to-yellow-500/90 px-6 py-2.5 font-montserrat text-sm font-semibold text-zinc-900 transition-shadow hover:shadow-[0_0_20px_rgba(251,191,36,0.3)]"
+        >
+          Aceitar
+        </motion.button>
+      </div>
+    </motion.div>
+  )
+}
+
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
     className={className}
@@ -150,10 +192,10 @@ function WhatsAppButton({
   )
 }
 
-const CAROUSEL_IMAGES = Array.from(
-  { length: 19 },
-  (_, i) => `/carrossel/img-${String(i + 1).padStart(2, '0')}.webp`
-)
+const CAROUSEL_IMAGES = [
+  ...Array.from({ length: 6 }, (_, i) => `/carrossel/img-${String(i + 1).padStart(2, '0')}.webp`),
+  ...Array.from({ length: 12 }, (_, i) => `/carrossel/img-${String(i + 8).padStart(2, '0')}.webp`),
+]
 
 function InfiniteCarousel() {
   const [current, setCurrent] = useState(0)
@@ -481,10 +523,12 @@ export default function Home() {
       {/* ========== FOOTER ========== */}
       <footer className="border-t border-zinc-800 bg-black py-8 px-6 md:px-12 lg:px-16">
         <p className="text-center font-montserrat text-sm text-zinc-500">
-          © 2024 Espaço Casa Verde. Todos os direitos reservados. Agendamentos
-          via WhatsApp.
+          ©️ 2026 Personal Office Escritórios Compartilhados e Eventos Ltda.
         </p>
       </footer>
+
+      {/* Aviso de Cookies - LGPD */}
+      <CookieBanner />
     </div>
   )
 }
