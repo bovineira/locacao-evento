@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
@@ -149,6 +150,57 @@ function WhatsAppButton({
   )
 }
 
+const CAROUSEL_IMAGES = Array.from(
+  { length: 19 },
+  (_, i) => `/carrossel/img-${String(i + 1).padStart(2, '0')}.webp`
+)
+
+function InfiniteCarousel() {
+  const [current, setCurrent] = useState(0)
+  const total = CAROUSEL_IMAGES.length
+
+  const next = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % total)
+  }, [total])
+
+  useEffect(() => {
+    const interval = setInterval(next, 3500)
+    return () => clearInterval(interval)
+  }, [next])
+
+  return (
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border-2 border-amber-200/40 shadow-[0_0_30px_rgba(251,191,36,0.15)] md:aspect-[3/2]">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={current}
+          src={CAROUSEL_IMAGES[current]}
+          alt={`Espaço para eventos - foto ${current + 1}`}
+          className="absolute inset-0 h-full w-full object-cover"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </AnimatePresence>
+      {/* Indicadores */}
+      <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+        {CAROUSEL_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === current
+                ? 'w-6 bg-amber-300'
+                : 'w-1.5 bg-white/40 hover:bg-white/60'
+            }`}
+            aria-label={`Ir para imagem ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const mobileImageUrl = '/placeholder-mobile.webp'
   const desktopImageUrl = '/placeholder-desktop.webp'
@@ -186,9 +238,9 @@ export default function Home() {
               transition={{ duration: 0.8, ease: 'easeOut' }}
               className="font-poppins text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl"
             >
-              O Espaço de Eventos{' '}
-              <span className="text-gradient-animated">Exclusivo</span> na{' '}
-              <span className="text-gradient-animated">Zona Norte</span> de São Paulo
+              O espaço ideal para{' '}
+              <span className="text-gradient-animated">seu evento</span> na{' '}
+              <span className="text-gradient-animated">Zona Norte</span> de São Paulo.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -231,24 +283,14 @@ export default function Home() {
               custom={0}
               className="font-poppins text-lg leading-relaxed text-zinc-300 md:text-xl"
             >
-              <span className="text-gradient-animated">Confraternizações</span>, festas e{' '}
-              <span className="text-gradient-animated">eventos corporativos</span> com infraestrutura
-              completa, localização estratégica e atendimento personalizado.
+              Confraternizações, eventos familiares ou corporativos. Infraestrutura completa e atendimento personalizado.
             </motion.p>
             <motion.div variants={fadeUp} custom={1} className="mt-8">
               <GoldCtaButton />
             </motion.div>
           </div>
-          <motion.div
-            variants={fadeUp}
-            custom={1}
-            className="relative aspect-[4/3] overflow-hidden rounded-lg border-2 border-amber-200/40 shadow-[0_0_30px_rgba(251,191,36,0.15)] md:aspect-[3/2]"
-          >
-            <img
-              src="/dobra-2.webp"
-              alt="Espaço para eventos - infraestrutura e ambiente"
-              className="h-full w-full object-cover"
-            />
+          <motion.div variants={fadeUp} custom={1}>
+            <InfiniteCarousel />
           </motion.div>
         </motion.div>
         <ScrollDownArrow />
@@ -333,10 +375,10 @@ export default function Home() {
               variants={containerStagger}
             >
               {[
-                'Ambiente versátil para diferentes tipos de celebrações.',
+                'Ambiente versátil, amplo e funcional. Adaptável ao estilo do seu evento.',
                 'Equipe especializada para garantir que cada detalhe seja perfeito.',
-                'Espaço amplo e funcional, adaptável ao estilo do seu evento.',
-                'Melhor Custo Benefício da região.',
+                'Estacionamento coberto com seguro.',
+                'Melhor custo benefício da região.',
               ].map((text, i) => (
                 <motion.div
                   key={i}
@@ -418,8 +460,22 @@ export default function Home() {
           >
             <WhatsAppButton onClick={handleWhatsAppClick} large />
           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 mt-12 w-full md:mt-14"
+          >
+            <div className="flex justify-center">
+              <img
+                src="/atendente-sessao05.png"
+                alt="Atendimento Espaço Casa Verde"
+                className="w-full max-h-[420px] max-w-3xl object-contain object-top drop-shadow-2xl md:max-h-[560px] md:max-w-4xl md:w-auto"
+              />
+            </div>
+          </motion.div>
         </motion.div>
-        <ScrollDownArrow />
       </section>
 
       {/* ========== FOOTER ========== */}
