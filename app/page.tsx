@@ -274,6 +274,14 @@ export default function Home() {
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-zinc-950/90 md:from-black/60 md:via-black/40 md:to-zinc-950" />
         <main className="relative z-20 flex flex-1 flex-col justify-start px-6 pt-20 md:justify-center md:items-start md:px-12 md:pt-0 lg:px-16">
           <div className="w-full md:w-1/2 md:max-w-2xl">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="mb-4 font-montserrat text-xs font-semibold uppercase tracking-[0.25em] text-amber-200/80 md:text-sm"
+            >
+              Espaço de eventos Pau Brasil
+            </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
