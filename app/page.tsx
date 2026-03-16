@@ -308,7 +308,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <GoldCtaButton />
+              <WhatsAppButton onClick={handleWhatsAppClick} />
             </motion.div>
           </div>
         </main>
@@ -336,7 +336,7 @@ export default function Home() {
               Confraternizações, eventos familiares ou corporativos. Infraestrutura completa e atendimento personalizado.
             </motion.p>
             <motion.div variants={fadeUp} custom={1} className="mt-8">
-              <GoldCtaButton />
+              <WhatsAppButton onClick={handleWhatsAppClick} />
             </motion.div>
           </div>
           <motion.div variants={fadeUp} custom={1}>
@@ -460,7 +460,7 @@ export default function Home() {
               custom={4}
               className="mt-12 flex justify-center"
             >
-              <GoldCtaButton />
+              <WhatsAppButton onClick={handleWhatsAppClick} />
             </motion.div>
           </motion.div>
         </div>
