@@ -256,8 +256,8 @@ function InfiniteCarousel() {
 }
 
 export default function Home() {
-  const mobileImageUrl = '/placeholder-mobile-novo.svg'
-  const desktopImageUrl = '/placeholder-desktop-novo.svg'
+  const mobileImageUrl = '/placeholder-mobile-novo-v2.jpeg'
+  const desktopImageUrl = '/placeholder-desktop-novo-v2.png'
   const whatsappNumber = '5511994283658'
   const whatsappMessage = encodeURIComponent(
     'Olá! Gostaria de verificar a disponibilidade do espaço para a minha data.'
