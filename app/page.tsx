@@ -192,10 +192,22 @@ function WhatsAppButton({
   )
 }
 
-const CAROUSEL_IMAGES = [
-  ...Array.from({ length: 6 }, (_, i) => `/carrossel/img-${String(i + 1).padStart(2, '0')}.webp`),
-  ...Array.from({ length: 12 }, (_, i) => `/carrossel/img-${String(i + 8).padStart(2, '0')}.webp`),
+const CAROUSEL_FILENAMES = [
+  'WhatsApp Image 2026-06-02 at 18.55.34.webp',
+  'WhatsApp Image 2026-06-02 at 18.55.35.webp',
+  'WhatsApp Image 2026-06-02 at 18.55.39.webp',
+  'WhatsApp Image 2026-06-02 at 18.55.44.webp',
+  'WhatsApp Image 2026-06-14 at 18.56.21.webp',
+  'WhatsApp Image 2026-06-14 at 18.56.21 (1).webp',
+  'WhatsApp Image 2026-06-14 at 18.56.22.webp',
+  'WhatsApp Image 2026-06-14 at 18.57.15.webp',
+  'WhatsApp Image 2026-06-14 at 18.57.15 (1).webp',
+  'WhatsApp Image 2026-06-14 at 18.57.16.webp',
 ]
+
+const CAROUSEL_IMAGES = CAROUSEL_FILENAMES.map(
+  (name) => `/carrossel/${encodeURIComponent(name)}`
+)
 
 function InfiniteCarousel() {
   const [current, setCurrent] = useState(0)
@@ -244,8 +256,8 @@ function InfiniteCarousel() {
 }
 
 export default function Home() {
-  const mobileImageUrl = '/placeholder-mobile.webp'
-  const desktopImageUrl = '/placeholder-desktop.webp'
+  const mobileImageUrl = '/placeholder-mobile-novo.svg'
+  const desktopImageUrl = '/placeholder-desktop-novo.svg'
   const whatsappNumber = '5511994283658'
   const whatsappMessage = encodeURIComponent(
     'Olá! Gostaria de verificar a disponibilidade do espaço para a minha data.'
